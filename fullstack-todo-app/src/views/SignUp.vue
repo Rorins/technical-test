@@ -1,8 +1,13 @@
 <script setup>
+import FormElement from '@/components/FormElement.vue'
 </script>
 
 <template>
   <main>
-  Sign up
+    <FormElement 
+    title="Sign-up"
+    link="login"
+    text="Already a user"
+     />
   </main>
 </template>
