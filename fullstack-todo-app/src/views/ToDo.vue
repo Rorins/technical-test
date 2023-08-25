@@ -18,7 +18,6 @@ function addTask(task) {
       alt="run"  />
   </div>
 <Submit @addTask="addTask" />
-<div>{{ tasks }}</div>
-<List />
+<List :tasks="tasks"/>
 </section>
 </template>
