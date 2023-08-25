@@ -52,7 +52,6 @@ const props = defineProps({
 
                   <p>{{ text }}? <RouterLink :to="`/${link}`">{{ link }}</RouterLink></p>
 
-                  <a href="#">Forgot password?</a>
                 </form>
               </div>
             </div>
