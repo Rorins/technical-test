@@ -17,7 +17,7 @@ const router = createRouter({
       component: SignIn
     },
     {
-      path: '/to-do',
+      path: '/',
       name: 'ToDo',
       component: ToDo
     },

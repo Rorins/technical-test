@@ -18,7 +18,7 @@ const props = defineProps({
           <div class="row">
             <div class="col-md-6 col-lg-5 d-flex align-items-center justify-content-center">
               <div class="img_container">
-                <img src="@/assets/todo.png"
+                <img class="log_img" src="@/assets/todo.png"
                 alt="guy with papers"  />
             </div>
               </div>
@@ -27,14 +27,12 @@ const props = defineProps({
 
                 <form class="text-white">
                   <div class="d-flex align-items-center">
-                    <div class="logo">
-                      <img src="@/assets/logo.svg"
+                    <div class="img_container">
+                      <img class="logo" src="@/assets/logo.svg"
                       alt="logo"  />
                     </div>
                     <h1>TO DO</h1>
                   </div>
-
-                  <h5>Sign into your account</h5>
 
                   <div class="form-outline">
                     <input type="email" id="email" class="form-control form-control-lg" />
@@ -66,18 +64,25 @@ const props = defineProps({
 
 <style scoped lang="scss">
 .form_element{
-  .logo{
+  .img_container{
+    img{
+        height:100%;
+        width:100%;
+        object-fit:cover;
+      }
+    img.logo{
     background-color:white;
     width:50px;
     padding:10px;
     border-radius:50%;
     margin-right:20px;
   }
-      img{
-        height:100%;
-        width:100%;
-        object-fit:cover;
-      }
+  img.log_img{
+        background-color:white;
+        padding:10px;
+        border-radius:20px;
+  }
+  }
     form{
       padding:50px;
       border-radius:20px;
