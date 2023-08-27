@@ -1,12 +1,38 @@
 <script setup>
-import { defineProps } from 'vue';
-import { RouterLink} from 'vue-router'
+import { defineProps, ref } from 'vue';
+import { RouterLink, useRouter } from 'vue-router'
+
+const router = useRouter();
+const email = ref('');
+const password = ref('');
 
 const props = defineProps({
   title: String,
   link: String,
   text: String,
 });
+
+async function registerUser() {
+  const formData = {
+    email: email.value,
+    password: password.value,
+  };
+
+  const response = await fetch('http://localhost/todo-app-backend/register.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData),
+  });
+ 
+  if (response.ok) {
+    console.log('Registration successful.');
+    router.push('/');
+  } else {
+    console.error('Registration failed.');
+  }
+}
 </script>
 
 <template>
@@ -35,17 +61,17 @@ const props = defineProps({
                   </div>
 
                   <div class="form-outline">
-                    <input type="email" id="email" class="form-control form-control-lg" />
+                    <input type="email" id="email" v-model="email" class="form-control form-control-lg" />
                     <label class="form-label" for="email">Email address</label>
                   </div>
 
                   <div class="form-outline">
-                    <input type="password" id="password" class="form-control form-control-lg" />
+                    <input type="password" id="password" v-model="password" class="form-control form-control-lg" />
                     <label class="form-label" for="password">Password</label>
                   </div>
 
                   <div>
-                    <button class="btn btn-light btn-lg btn-block" type="button">Login</button>
+                    <button class="btn btn-light btn-lg btn-block" @click="registerUser" type="button">Button</button>
                   </div>
 
                   <p>{{ text }}? <RouterLink :to="`/${link}`">{{ link }}</RouterLink></p>
