@@ -1,10 +1,7 @@
 <script setup>
 import { defineProps, ref } from 'vue';
-import { RouterLink, useRouter } from 'vue-router'
-
-const router = useRouter();
-const email = ref('');
-const password = ref('');
+import { RouterLink, useRouter, useRoute} from 'vue-router'
+import axios from 'axios';
 
 const props = defineProps({
   title: String,
@@ -12,25 +9,43 @@ const props = defineProps({
   text: String,
 });
 
-async function registerUser() {
+const route = useRoute();
+const router = useRouter();
+const email = ref('');
+const password = ref('');
+
+//checking if route is login or sign-up
+const isLoginRoute = route.name === 'login';
+console.log(route.name, "route name")
+
+async function handleAuthentication() {
   const formData = {
     email: email.value,
     password: password.value,
   };
+  console.log(formData, 'FORM DATA SENT');
 
-  const response = await fetch('http://localhost/todo-app-backend/register.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(formData),
-  });
- 
-  if (response.ok) {
-    console.log('Registration successful.');
-    router.push('/');
-  } else {
-    console.error('Registration failed.');
+  try {
+    console.log('isLoginRoute:', isLoginRoute);
+    const url = isLoginRoute ? 'http://localhost/todo-app-backend/login.php' : 'http://localhost/todo-app-backend/register.php';
+    
+    const response = await axios.post(url, formData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      if (isLoginRoute) {
+        console.log('Login successful.', response.data.message);
+        router.push('/');
+      } else {
+        console.log('Registration successful.', response.data.message);
+        router.push('/');
+      }
+    }
+  } catch (error) {
+    console.error(isLoginRoute ? error: error);
   }
 }
 </script>
@@ -51,7 +66,7 @@ async function registerUser() {
             <div class="col-md-6 col-lg-7 text-center">
               <div>
 
-                <form class="text-white">
+                <form class="text-white" @submit.prevent="handleAuthentication">
                   <div class="d-flex align-items-center">
                     <div class="img_container">
                       <img class="logo" src="@/assets/logo.svg"
@@ -71,7 +86,7 @@ async function registerUser() {
                   </div>
 
                   <div>
-                    <button class="btn btn-light btn-lg btn-block" @click="registerUser" type="button">Button</button>
+                    <button type="submit" class="btn btn-light btn-lg btn-block">Submit</button>
                   </div>
 
                   <p>{{ text }}? <RouterLink :to="`/${link}`">{{ link }}</RouterLink></p>
