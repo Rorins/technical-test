@@ -1,23 +1,34 @@
 <script setup>
 import Submit from '@/components/Submit.vue'
 import List from '@/components/List.vue'
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 const tasks = ref([]);
 
+//I fetch to tasks from the database and show them when component is mounted
+async function fetchTasks() {
+  try {
+    const response = await axios.get('http://localhost/todo-app-backend/api.php');
+    tasks.value = response.data;
+    console.log(tasks.value)
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+//the function adds the task and expirydate sent from the submit component through the emit,  I will make
+//a post request sending out the data to the backend
 function addTask(task) {
-  tasks.value.push({ text: task, completed: false });
+  console.log(task)
+  axios.post('http://localhost/todo-app-backend/api.php', task )
+    .catch(error => console.error(error));
 }
 
-function deleteTask(index) {
-  console.log(tasks.value)
-  tasks.value.splice(index, 1);
-}
-
-function toggleTask(index) {
-  tasks.value[index].completed = !tasks.value[index].completed;
-  console.log(tasks.value[index].completed)
-}
+//Will show all the tasks when the component is mounted
+onMounted(() => {
+  fetchTasks();
+})
 </script>
 
 <template>
@@ -29,7 +40,7 @@ function toggleTask(index) {
   <h1>Welcome to your to do app</h1>
 </div>
 <Submit @addTask="addTask" />
-<List @deleteTask="deleteTask" @toggleTask="toggleTask" :tasks="tasks"/>
+<List   :tasks="tasks"/>
   </div>
 </section>
 </template>
