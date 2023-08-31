@@ -13,6 +13,7 @@ const route = useRoute();
 const router = useRouter();
 const email = ref('');
 const password = ref('');
+const errorMessage = ref('')
 
 //checking if route is login or sign-up
 const isLoginRoute = route.name === 'login';
@@ -38,14 +39,17 @@ async function handleAuthentication() {
     if (response.status === 200) {
       if (isLoginRoute) {
         console.log('Login successful.', response.data.message);
-        router.push('/');
+        //if login goes well the user will be saved to local storage in json format
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        router.push('/todo');
       } else {
         console.log('Registration successful.', response.data.message);
-        router.push('/');
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        router.push('/todo');
       }
     }
   } catch (error) {
-    console.error(isLoginRoute ? error: error);
+    errorMessage.value = error.response.data.message;
   }
 }
 </script>
@@ -65,6 +69,8 @@ async function handleAuthentication() {
               </div>
             <div class="col-md-6 col-lg-7 text-center">
               <div>
+
+                <div v-if="errorMessage">{{ errorMessage }}</div>
 
                 <form class="text-white" @submit.prevent="handleAuthentication">
                   <div class="d-flex align-items-center">
