@@ -3,6 +3,8 @@ import { defineProps, ref } from 'vue';
 import { RouterLink, useRouter, useRoute} from 'vue-router'
 import axios from 'axios';
 
+//I am using the Form Element as a general component that can be used anywhere,
+//this is why I pass props so I can pass data according to what I want to fill this form with
 const props = defineProps({
   title: String,
   link: String,
@@ -15,10 +17,11 @@ const email = ref('');
 const password = ref('');
 const errorMessage = ref('')
 
-//checking if route is login or sign-up
+//checking if route is login or sign-up( I compare it by default to login )
 const isLoginRoute = route.name === 'login';
 console.log(route.name, "route name")
 
+//Saving email and password in the object formData that I ill send to the database
 async function handleAuthentication() {
   const formData = {
     email: email.value,
@@ -26,6 +29,7 @@ async function handleAuthentication() {
   };
   console.log(formData, 'FORM DATA SENT');
 
+  //I send the post request to the backend and give back the response
   try {
     console.log('isLoginRoute:', isLoginRoute);
     const url = isLoginRoute ? 'http://localhost/todo-app-backend/login.php' : 'http://localhost/todo-app-backend/register.php';
@@ -37,16 +41,10 @@ async function handleAuthentication() {
     });
 
     if (response.status === 200) {
-      if (isLoginRoute) {
-        console.log('Login successful.', response.data.message);
-        //if login goes well the user will be saved to local storage in json format
+        //if login goes well the user will be saved to local storage in json format and pushed to the main todo route
+        //I will use the localstorage to know which user is logged in and show the content according to who he is
         localStorage.setItem('user', JSON.stringify(response.data.user));
         router.push('/todo');
-      } else {
-        console.log('Registration successful.', response.data.message);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        router.push('/todo');
-      }
     }
   } catch (error) {
     errorMessage.value = error.response.data.message;
@@ -55,85 +53,104 @@ async function handleAuthentication() {
 </script>
 
 <template>
-<section class="form_element vh-100">
-  <div class="container h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col col-xl-10">
-        <div>
-          <div class="row">
-            <div class="col-md-6 col-lg-5 d-flex align-items-center justify-content-center">
-              <div class="img_container">
-                <img class="log_img" src="@/assets/todo.png"
+            <div class="form_modal text-center">
+            
+              <!-- image -->
+              <figure class="img_container">
+                <img class="side_img" src="@/assets/todo.png"
                 alt="guy with papers"  />
-            </div>
-              </div>
-            <div class="col-md-6 col-lg-7 text-center">
-              <div>
+              </figure>
+              
+              <!-- Form -->
+              <aside>
 
-                <div v-if="errorMessage">{{ errorMessage }}</div>
-
-                <form class="text-white" @submit.prevent="handleAuthentication">
-                  <div class="d-flex align-items-center">
-                    <div class="img_container">
-                      <img class="logo" src="@/assets/logo.svg"
+                <form class="text-black" @submit.prevent="handleAuthentication">
+                  <div class="title d-flex align-items-center mb-2">
+                      <img class="logo" src="@/assets/checklist.png"
                       alt="logo"  />
-                    </div>
                     <h1>TO DO</h1>
                   </div>
 
-                  <div class="form-outline">
+                  <div class="mb-4">
                     <input type="email" id="email" v-model="email" class="form-control form-control-lg" />
                     <label class="form-label" for="email">Email address</label>
                   </div>
 
-                  <div class="form-outline">
+                  <div class="mb-4">
                     <input type="password" id="password" v-model="password" class="form-control form-control-lg" />
                     <label class="form-label" for="password">Password</label>
                   </div>
 
+                  <div class="error_message" v-if="errorMessage">{{ errorMessage }}</div>
+
                   <div>
-                    <button type="submit" class="btn btn-light btn-lg btn-block">Submit</button>
+                    <button type="submit" class="btn btn-dark btn-lg btn-block mb-4">Submit</button>
                   </div>
+                  
 
-                  <p>{{ text }}? <RouterLink :to="`/${link}`">{{ link }}</RouterLink></p>
-
+                  <span>{{ text }}? <RouterLink class="link" :to="`/${link}`">{{ link }}</RouterLink></span>
                 </form>
-              </div>
+              </aside>
+              
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 </template>
 
 <style scoped lang="scss">
-.form_element{
-  .img_container{
+@import "@/assets/styles/variables.scss";
+
+/* form component */
+  .form_modal{
+    display:flex;
+    border-radius:10px;
+    padding:50px;
+    background-color:$primary-color;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+    @media (max-width: 998px) {
+    display: block;
+   }
+    /* figure */
+    figure{
+      margin:auto 40px;
+    }
+    .img_container{
+      height:fit-content;
     img{
         height:100%;
         width:100%;
         object-fit:cover;
       }
-    img.logo{
-    background-color:white;
-    width:50px;
-    padding:10px;
-    border-radius:50%;
-    margin-right:20px;
   }
-  img.log_img{
-        background-color:white;
-        padding:10px;
-        border-radius:20px;
-  }
-  }
-    form{
-      padding:50px;
-      border-radius:20px;
-      background-color:black;
+  /* aside form*/
+    aside{
+      width:400px;
+      @media (max-width: 998px) {
+      width:100%;
     }
-}
+    .title{
+      @media (max-width: 998px) {
+      justify-content:center;
+    }
+    }
+    
+      img.logo{
+      width:60px;
+      padding:10px;
+      border-radius:50%;
+      margin-right:20px;
+    }
+    .form-control{
+      border:1px solid #cec8c8;
+      &:focus{
+        background-color:rgb(235, 230, 230);
+      }
+    }
+    .error_message{
+      color:red;
+    }
+    .link{
+      color:$tertiary-color;
+    }
+    }
+  }
+  
 </style>
