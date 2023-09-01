@@ -34,20 +34,28 @@ function toggleTask(taskId, index) {
 
 <template>
     <ul>
-      <li v-for="(task, index) in tasks" :key="index">
+      <li class="item" v-for="(task, index) in tasks" :key="index">
         <!-- I was getting a 0 string value initially from the database so I converted it to a number -->
         <input type="checkbox" @change="toggleTask(task.id, index)" v-model="task.completed" />
         {{ task.title }}
         {{ task.expiry_date }}
-        {{ task.id }}
-        {{ task.completed}}
         {{ console.log(task.completed, "am printing here")}}
-        <button @click="deleteTask(task.id)">Delete</button>
+        <button class="btn btn-dark " @click="deleteTask(task.id)">Remove</button>
       </li>
     </ul>
   </template>
   
   <style lang="scss">
-  
+  ul{
+    .item{
+      background-color:white;
+      border-radius:10px;
+      padding:10px;
+    }
+    list-style-type:none;
+    input[type=checkbox] {
+      accent-color: black;
+    }
+  }
   </style>
   

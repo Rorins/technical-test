@@ -64,9 +64,9 @@ async function handleAuthentication() {
               <!-- Form -->
               <aside>
 
-                <form class="text-black" @submit.prevent="handleAuthentication">
-                  <div class="title d-flex align-items-center mb-2">
-                      <img class="logo" src="@/assets/checklist.png"
+                <form class="text-white" @submit.prevent="handleAuthentication">
+                  <div class="title d-flex align-items-center mb-4">
+                      <img class="logo" src="@/assets/checklist-white.png"
                       alt="logo"  />
                     <h1>TO DO</h1>
                   </div>
@@ -84,7 +84,7 @@ async function handleAuthentication() {
                   <div class="error_message" v-if="errorMessage">{{ errorMessage }}</div>
 
                   <div>
-                    <button type="submit" class="btn btn-dark btn-lg btn-block mb-4">Submit</button>
+                    <button type="submit" class="btn btn-light btn-lg btn-block mb-4">Submit</button>
                   </div>
                   
 
@@ -102,7 +102,7 @@ async function handleAuthentication() {
   .form_modal{
     display:flex;
     border-radius:10px;
-    padding:50px;
+    /* padding:50px; */
     background-color:$primary-color;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
     @media (max-width: 998px) {
@@ -110,7 +110,10 @@ async function handleAuthentication() {
    }
     /* figure */
     figure{
-      margin:auto 40px;
+      margin:auto 10px;
+      background-color: $primary-color;
+      padding: 50px;
+      border-radius: 10px;
     }
     .img_container{
       height:fit-content;
@@ -123,6 +126,9 @@ async function handleAuthentication() {
   /* aside form*/
     aside{
       width:400px;
+      background-color: #212529;
+      padding: 50px;
+      border-radius: 10px;
       @media (max-width: 998px) {
       width:100%;
     }
@@ -137,6 +143,7 @@ async function handleAuthentication() {
       padding:10px;
       border-radius:50%;
       margin-right:20px;
+      background-color:white;
     }
     .form-control{
       border:1px solid #cec8c8;

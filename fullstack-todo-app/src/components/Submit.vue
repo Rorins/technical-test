@@ -6,9 +6,12 @@ const newTask = ref('');
 const expirationDate = ref('');
 
 //will send out all the data as an object to the parent component
+//I am using the ternary operator since the dabase is expecting a data type and I have string
+//to avoid the error I transform it to null if the value is empty
 function addTask() {
   if (newTask.value.trim() !== '') {
-    emit('addTask',  { title: newTask.value, expiryDate: expirationDate.value });
+    emit('addTask',  { title: newTask.value, expiryDate: expirationDate.value === '' ? null : expirationDate.value });
+    console.log(expirationDate.value)
     newTask.value = '';
   }
 }

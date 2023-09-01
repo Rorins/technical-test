@@ -28,10 +28,10 @@ function logOut(){
         <RouterLink class="nav-link" to="/login"><span>login</span></RouterLink>
       </li>
       <li class="nav-item">
-        <RouterLink class="nav-link" to="/sign-up"><span>sign-up</span></RouterLink>
+        <RouterLink class="nav-link" to="/sign-up"><span>sign  up</span></RouterLink>
       </li>
       <li class="nav-item">
-        <span v-if="authenticatedUser()" @click="logOut" class="nav-link">Log-out</span>
+        <span v-if="authenticatedUser()" @click="logOut" class="nav-link">Log out</span>
       </li>
     </ul>
   </div>
