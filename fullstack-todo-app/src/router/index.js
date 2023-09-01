@@ -8,6 +8,10 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/',
+      redirect: '/login',
+    },
+    {
       path: '/sign-up',
       name: 'signUp',
       component: SignUp
