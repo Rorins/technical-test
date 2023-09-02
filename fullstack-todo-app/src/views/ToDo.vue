@@ -42,20 +42,41 @@ onMounted(() => {
 
 <template>
 <section class="to_do vh-100">
-<div class="container d-flex justify-content-center flex-column align-items-center ">
-  <div class="headline">
-      <img src="@/assets/run.png"
-      alt="run"  />
-  <h1>Welcome to your to do app</h1>
+<div class="container ">
+
+  <div class="headline d-flex flex-column align-items-center bg_primary box_design">
+  <h1>Welcome to TO DO</h1>
 </div>
-<Submit @addTask="addTask" />
-<List :tasks="tasks" @taskUpdate="fetchTasks"/>
-  </div>
+
+<div class="row first_section">
+  <!-- first column -->
+<div class="col-6">
+  <h2 class="bg_secondary text-white box_design">Tasks</h2>
+  <Submit @addTask="addTask" />
+  <List :tasks="tasks" @taskUpdate="fetchTasks"/>
+</div>
+
+ <!-- second column -->
+<div class="col-6">
+    <img class="picture bg_primary box_design" src="@/assets/vibing.png"
+      alt="vibing"  />
+</div>
+</div>
+</div>
+
 </section>
 </template>
 
 <style scoped lang="scss">
-
+.to_do{
+  .headline{
+    margin:60px 0;
+  }
+    .picture{
+      width:400px;
+      padding:20px;
+    }
+}
 </style>
 
 

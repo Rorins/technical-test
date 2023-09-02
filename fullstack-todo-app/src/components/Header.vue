@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import {ref} from 'vue';
 
 const router = useRouter();
+//this will check the state of the navbar
 const isNavbarOpen = ref(false);
 
 //loggin out by checking the local storage and removing the user from there

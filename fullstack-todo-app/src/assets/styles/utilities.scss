@@ -4,3 +4,13 @@
 .h_500{
     height:500px;
 }
+.bg_primary{
+    background-color:$primary-color;
+}
+.bg_secondary{
+    background-color:$secondary-color;
+}
+.box_design{
+    border-radius:10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
