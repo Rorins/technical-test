@@ -10,7 +10,7 @@ const userSessionData = JSON.parse(localStorage.getItem('user'));
 //I fetch to tasks from the database and show them when component is mounted
 async function fetchTasks() {
   try {
-    const response = await axios.get(`http://localhost/todo-app-backend/api.php?user_id=${userSessionData.id}`);
+    const response = await axios.get(`http://localhost/todo-backend/todo-app-backend/api.php?user_id=${userSessionData.id}`);
     tasks.value = response.data;
     console.log(tasks.value, "tasks here")
   } catch (error) {
@@ -24,7 +24,7 @@ async function addTask(task) {
   try {
     if (userSessionData) {
       task.userId = userSessionData.id;
-      await axios.post('http://localhost/todo-app-backend/api.php', task);
+      await axios.post('http://localhost/todo-backend/todo-app-backend/api.php', task);
       fetchTasks(); 
     } else {
       console.error('User session data not found.');

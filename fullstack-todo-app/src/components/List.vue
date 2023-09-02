@@ -13,7 +13,7 @@ const props = defineProps({
 //To delete the task I get the taskId coming from the database add it to the query
 //so I can make a delete request to delete the task related to the specific id
 function deleteTask(taskId) {
-  axios.delete(`http://localhost/todo-app-backend/api.php?id=${taskId}&user_id=${userSessionData.id}`)
+  axios.delete(`http://localhost/todo-backend/todo-app-backend/api.php?id=${taskId}&user_id=${userSessionData.id}`)
   .then(() => {
       emit('taskUpdate'); // Emit
     })
@@ -24,7 +24,7 @@ function toggleTask(taskId, index) {
   //I am getting the index generated below in the list of tasks
   //to access the props.tasks array so I can get the specific task I need
   const completed = props.tasks[index].completed;
-  axios.put(`http://localhost/todo-app-backend/api.php?id=${taskId}&user_id=${userSessionData.id}`, { completed })
+  axios.put(`http://localhost/todo-backend/todo-app-backend/api.php?id=${taskId}&user_id=${userSessionData.id}`, { completed })
   .then(() => {
       emit('taskUpdate'); // Emit
     })

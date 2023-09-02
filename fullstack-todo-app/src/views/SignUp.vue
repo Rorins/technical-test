@@ -9,7 +9,7 @@ import FormElement from '@/components/FormElement.vue'
         <div class=" d-flex justify-content-center align-items-center h-100">
 
           <FormElement 
-          title="Sign-up"
+          title="Sign up"
           link="login"
           text="Already a user"
           />

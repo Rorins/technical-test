@@ -32,7 +32,7 @@ async function handleAuthentication() {
   //I send the post request to the backend and give back the response
   try {
     console.log('isLoginRoute:', isLoginRoute);
-    const url = isLoginRoute ? 'http://localhost/todo-app-backend/login.php' : 'http://localhost/todo-app-backend/register.php';
+    const url = isLoginRoute ? 'http://localhost/todo-backend/todo-app-backend/login.php' : 'http://localhost/todo-backend/todo-app-backend/register.php';
     
     const response = await axios.post(url, formData, {
       headers: {
@@ -71,6 +71,8 @@ async function handleAuthentication() {
                     <h1>TO DO</h1>
                   </div>
 
+                  <h2>{{ title }}</h2>
+
                   <div class="mb-4">
                     <input type="email" id="email" v-model="email" class="form-control form-control-lg" />
                     <label class="form-label" for="email">Email address</label>
@@ -88,7 +90,7 @@ async function handleAuthentication() {
                   </div>
                   
 
-                  <span>{{ text }}? <RouterLink class="link" :to="`/${link}`">{{ link }}</RouterLink></span>
+                  <span>{{ text }}? <RouterLink class="link" :to="`/${link}`">{{ title }}</RouterLink></span>
                 </form>
               </aside>
               
