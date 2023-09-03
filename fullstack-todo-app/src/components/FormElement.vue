@@ -90,7 +90,7 @@ async function handleAuthentication() {
                   </div>
                   
 
-                  <span>{{ text }}? <RouterLink class="link" :to="`/${link}`">{{ title }}</RouterLink></span>
+                  <span>{{ text }}? <RouterLink class="link" :to="`/${link}`">{{ link }}</RouterLink></span>
                 </form>
               </aside>
               

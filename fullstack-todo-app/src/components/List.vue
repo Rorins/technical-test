@@ -27,10 +27,12 @@ function deleteTask(taskId) {
     .catch(error => console.error(error));
 }
 
-function toggleTask(taskId, index) {
+function toggleTask(taskId) {
   //I am getting the index generated below in the list of tasks
   //to access the props.tasks array so I can get the specific task I need
-  const completed = props.tasks[index].completed;
+  const task = props.tasks.find(task => task.id === taskId);
+  const completed = task.completed;
+  console.log(completed, "checkbox here")
   axios.put(`http://localhost/todo-backend/todo-app-backend/api.php?id=${taskId}&user_id=${userSessionData.id}`, { completed })
   .then(() => {
       emit('taskUpdate'); // Emit
@@ -55,7 +57,6 @@ function filterTasksByDate(tasks, date) {
 //for the dates, I am using computed because it updates every time the args change
 //so I can display it correctly in the ui
 const todayTasks = computed(() => {
-
   return filterTasksByDate(props.tasks, today);
   //will have a filtered array with tasks of today
 });
@@ -76,33 +77,41 @@ const otherTasks = computed(() => {
 </script>
 
 <template>
-    <ul>
-      <h2>Today</h2>
+  <h2>Today</h2>
+  <ul>
         <li class="item" v-for="(task, index) in todayTasks" :key="index">
         <!-- I was getting a 0 string value initially from the database so I converted it to a number -->
-        <input type="checkbox" @change="toggleTask(task.id, index)" v-model="task.completed" />
+        <input type="checkbox" @change="toggleTask(task.id)" v-model="task.completed" />
         {{ task.title }}
         {{ task.expiry_date }}
+        {{ task.category_name }}
+        {{ todayTasks }}
         <button class="btn btn-dark " @click="deleteTask(task.id)">Remove</button>
       </li>
-
+  </ul>
+  
       <h2>Tomorrow</h2>
-
+      <ul>
       <li class="item" v-for="(task, index) in tomorrowTasks" :key="index">
         <!-- I was getting a 0 string value initially from the database so I converted it to a number -->
-        <input type="checkbox" @change="toggleTask(task.id, index)" v-model="task.completed" />
+        <input type="checkbox" @change="toggleTask(task.id)" v-model="task.completed" />
         {{ task.title }}
         {{ task.expiry_date }}
+        {{ task.category_name }}
+        {{ tomorrowTasks }}
         <button class="btn btn-dark " @click="deleteTask(task.id)">Remove</button>
       </li>
+    </ul>
 
       <h2>Other</h2>
-
+      <ul>
       <li class="item" v-for="(task, index) in otherTasks" :key="index">
         <!-- I was getting a 0 string value initially from the database so I converted it to a number -->
-        <input type="checkbox" @change="toggleTask(task.id, index)" v-model="task.completed" />
+        <input type="checkbox" @change="toggleTask(task.id)" v-model="task.completed" />
         {{ task.title }}
         {{ task.expiry_date }}
+        {{ task.category_name }}
+        {{ otherTasks }}
         <button class="btn btn-dark " @click="deleteTask(task.id)">Remove</button>
       </li>
     </ul>

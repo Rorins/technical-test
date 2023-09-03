@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import SignUp from '../views/SignUp.vue'
 import Login from '../views/Login.vue'
 import ToDo from '../views/ToDo.vue'
-import { authenticatedUser } from '@/auth.js';
+import { isAuthenticated } from '@/auth.js';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,7 +28,7 @@ const router = createRouter({
       name: 'ToDo',
       component: ToDo,
       beforeEnter: (to, from, next) => {
-        if (authenticatedUser()) {
+        if (isAuthenticated) {
           next(); 
         } else {
           next('/login'); 
