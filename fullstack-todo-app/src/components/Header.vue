@@ -1,19 +1,10 @@
 <script setup>
-import { isAuthenticated } from '@/auth.js';
-import { useRouter } from 'vue-router';
+import { isAuthenticated, logout} from '@/auth.js';
 import {ref} from 'vue';
 
-const router = useRouter();
 //this will check the state of the navbar
 const isNavbarOpen = ref(false);
-
-//loggin out by checking the local storage and removing the user from there
-function logOut(){
-    if (isAuthenticated.value){
-        localStorage.removeItem("user");
-        router.push('/login');
-    }
-}
+const logoutRef= ref(logout);
 
 </script>
 
@@ -38,8 +29,8 @@ function logOut(){
       <li class="nav-item">
         <RouterLink class="nav-link" to="/sign-up"><span>Sign up</span></RouterLink>
       </li>
-      <li class="nav-item">
-        <span v-if="isAuthenticated" @click="logOut" class="nav-link">Log out</span>
+      <li v-if="isAuthenticated()" class="nav-item">
+        <span  @click="logoutRef" class="nav-link">Log out</span>
       </li>
     </ul>
   </div>

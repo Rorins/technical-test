@@ -1,8 +1,12 @@
 <script setup>
 import { defineProps, defineEmits,computed } from 'vue';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
-const userSessionData = JSON.parse(localStorage.getItem('user'));
+const token = localStorage.getItem('token');
+const decodedToken = jwtDecode(token);
+const userId = decodedToken.user_id;
+
 const emit = defineEmits(['taskUpdate']);
 //Getting all of my tasks from the parent component to show them 
 const props = defineProps({
@@ -20,7 +24,8 @@ const today = new Date();
 //To delete the task I get the taskId coming from the database add it to the query
 //so I can make a delete request to delete the task related to the specific id
 function deleteTask(taskId) {
-  axios.delete(`http://localhost/todo-backend/todo-app-backend/api.php?id=${taskId}&user_id=${userSessionData.id}`)
+  console.log(userId, "user ID")
+  axios.delete(`http://localhost/todo-backend/todo-app-backend/api.php?id=${taskId}&user_id=${userId}`)
   .then(() => {
       emit('taskUpdate'); // Emit
     })
@@ -33,7 +38,7 @@ function toggleTask(taskId) {
   const task = props.tasks.find(task => task.id === taskId);
   const completed = task.completed;
   console.log(completed, "checkbox here")
-  axios.put(`http://localhost/todo-backend/todo-app-backend/api.php?id=${taskId}&user_id=${userSessionData.id}`, { completed })
+  axios.put(`http://localhost/todo-backend/todo-app-backend/api.php?id=${taskId}&user_id=${userId}`, { completed })
   .then(() => {
       emit('taskUpdate'); // Emit
     })

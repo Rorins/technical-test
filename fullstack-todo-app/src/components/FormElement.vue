@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, nextTick } from 'vue';
 import { RouterLink, useRouter, useRoute} from 'vue-router'
 import axios from 'axios';
 
@@ -23,6 +23,13 @@ console.log(route.name, "route name")
 
 //Saving email and password in the object formData that I ill send to the database
 async function handleAuthentication() {
+
+  //frontend validation
+  if (!email.value || !password.value) {
+    errorMessage.value = "Email and password are required.";
+    return; 
+  }
+
   const formData = {
     email: email.value,
     password: password.value,
@@ -43,7 +50,8 @@ async function handleAuthentication() {
     if (response.status === 200) {
         //if login goes well the user will be saved to local storage in json format and pushed to the main todo route
         //I will use the localstorage to know which user is logged in and show the content according to who he is
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        // localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('token',JSON.stringify( response.data.token));
         router.push('/todo');
     }
   } catch (error) {

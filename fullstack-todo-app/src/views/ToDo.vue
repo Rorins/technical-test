@@ -3,14 +3,17 @@ import Submit from '@/components/Submit.vue'
 import List from '@/components/List.vue'
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 const tasks = ref([]);
-const userSessionData = JSON.parse(localStorage.getItem('user'));
+const token = localStorage.getItem('token');
+const decodedToken = jwtDecode(token);
+const userId = decodedToken.user_id;
 
 //I fetch to tasks from the database and show them when component is mounted
 async function fetchTasks() {
   try {
-    const response = await axios.get(`http://localhost/todo-backend/todo-app-backend/api.php?user_id=${userSessionData.id}`);
+    const response = await axios.get(`http://localhost/todo-backend/todo-app-backend/api.php?user_id=${userId}`);
     tasks.value = response.data;
     console.log(tasks.value, "tasks here")
   } catch (error) {
@@ -21,9 +24,10 @@ async function fetchTasks() {
 //the function adds the task and expirydate sent from the submit component through the emit,  I will make
 //a post request sending out the data to the backend
 async function addTask(task) {
+  console.log(userId, "user ID")
   try {
-    if (userSessionData) {
-      task.userId = userSessionData.id;
+    if (userId) {
+      task.userId = userId;
       await axios.post('http://localhost/todo-backend/todo-app-backend/api.php', task);
       fetchTasks(); 
     } else {
