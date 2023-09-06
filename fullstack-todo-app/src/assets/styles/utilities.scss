@@ -1,16 +1,17 @@
 @import './variables';
+// I am using bootstrap but wanted to create some additional classes for myself that I can use anywhere I want
 
-//utilities
-.h_500{
-    height:500px;
+//UTILITIES
+.h_500 {
+  height: 500px;
 }
-.bg_primary{
-    background-color:$primary-color;
+.bg_primary {
+  background-color: $primary-color;
 }
-.bg_secondary{
-    background-color:$secondary-color;
+.bg_secondary {
+  background-color: $secondary-color;
 }
-.box_design{
-    border-radius:10px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+.box_design {
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }

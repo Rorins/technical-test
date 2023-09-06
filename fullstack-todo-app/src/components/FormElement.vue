@@ -1,173 +1,171 @@
 <script setup>
-import { defineProps, ref, nextTick } from 'vue';
-import { RouterLink, useRouter, useRoute} from 'vue-router'
-import axios from 'axios';
+import { defineProps, ref } from 'vue'
+import { RouterLink, useRouter, useRoute } from 'vue-router'
+import axios from 'axios'
+
+//FORM COMPONENT
 
 //I am using the Form Element as a general component that can be used anywhere,
 //this is why I pass props so I can pass data according to what I want to fill this form with
 const props = defineProps({
   title: String,
   link: String,
-  text: String,
-});
+  text: String
+})
 
-const route = useRoute();
-const router = useRouter();
-const email = ref('');
-const password = ref('');
+const route = useRoute()
+const router = useRouter()
+const email = ref('')
+const password = ref('')
 const errorMessage = ref('')
 
-//checking if route is login or sign-up( I compare it by default to login )
-const isLoginRoute = route.name === 'login';
-console.log(route.name, "route name")
+//Here I check if route is login or sign-up( I compare it by default to login )
+//This will help me in making different requests to the backend, one for login and one for Sign up
+const isLoginRoute = route.name === 'login'
 
-//Saving email and password in the object formData that I ill send to the database
 async function handleAuthentication() {
-
-  //frontend validation
+  //Frontend validation
   if (!email.value || !password.value) {
-    errorMessage.value = "Email and password are required.";
-    return; 
+    errorMessage.value = 'Email and password are required.'
+    return
   }
 
+  //Data I need to send is in object format
   const formData = {
     email: email.value,
-    password: password.value,
-  };
-  console.log(formData, 'FORM DATA SENT');
+    password: password.value
+  }
 
-  //I send the post request to the backend and give back the response
+  //I send the post request to the backend acording to the route I am in
   try {
-    console.log('isLoginRoute:', isLoginRoute);
-    const url = isLoginRoute ? 'http://localhost/todo-backend/todo-app-backend/login.php' : 'http://localhost/todo-backend/todo-app-backend/register.php';
-    
+    const url = isLoginRoute
+      ? 'http://localhost/todo-backend/todo-app-backend/login.php'
+      : 'http://localhost/todo-backend/todo-app-backend/register.php'
+
     const response = await axios.post(url, formData, {
       headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+        'Content-Type': 'application/json'
+      }
+    })
 
     if (response.status === 200) {
-        //if login goes well the user will be saved to local storage in json format and pushed to the main todo route
-        //I will use the localstorage to know which user is logged in and show the content according to who he is
-        // localStorage.setItem('user', JSON.stringify(response.data.user));
-        localStorage.setItem('token',JSON.stringify( response.data.token));
-        router.push('/todo');
+      //if login goes well a token from the backend will be saved in the frontend and the user will be pushed to the main todo route
+      //Using the token helps me in knowing if the user is logged in or not
+      localStorage.setItem('token', JSON.stringify(response.data.token))
+      router.push('/todo')
     }
   } catch (error) {
-    errorMessage.value = error.response.data.message;
+    //all other errors for validation will be displayed in the error const
+    errorMessage.value = error.response.data.message
   }
 }
 </script>
 
 <template>
-            <div class="form_modal text-center">
-            
-              <!-- image -->
-              <figure class="img_container">
-                <img class="side_img" src="@/assets/todo.png"
-                alt="guy with papers"  />
-              </figure>
-              
-              <!-- Form -->
-              <aside>
+  <div class="form box_design text-center">
+    <!-- image -->
+    <figure class="img_container">
+      <img class="side_img" src="@/assets/todo.png" alt="guy with papers" />
+    </figure>
 
-                <form class="text-white" @submit.prevent="handleAuthentication">
-                  <div class="title d-flex align-items-center mb-4">
-                      <img class="logo" src="@/assets/checklist-white.png"
-                      alt="logo"  />
-                    <h1>TO DO</h1>
-                  </div>
+    <!-- Form -->
+    <aside>
+      <form class="text-white" @submit.prevent="handleAuthentication">
+        <div class="title d-flex align-items-center mb-4">
+          <img class="logo" src="@/assets/checklist-white.png" alt="logo" />
+          <h1>TO DO</h1>
+        </div>
 
-                  <h2>{{ title }}</h2>
+        <h2>{{ title }}</h2>
 
-                  <div class="mb-4">
-                    <input type="email" id="email" v-model="email" class="form-control form-control-lg" />
-                    <label class="form-label" for="email">Email address</label>
-                  </div>
+        <div class="mb-4">
+          <input type="email" id="email" v-model="email" class="form-control form-control-lg" />
+          <label class="form-label" for="email">Email address</label>
+        </div>
 
-                  <div class="mb-4">
-                    <input type="password" id="password" v-model="password" class="form-control form-control-lg" />
-                    <label class="form-label" for="password">Password</label>
-                  </div>
+        <div class="mb-4">
+          <input
+            type="password"
+            id="password"
+            v-model="password"
+            class="form-control form-control-lg"
+          />
+          <label class="form-label" for="password">Password</label>
+        </div>
 
-                  <div class="error_message" v-if="errorMessage">{{ errorMessage }}</div>
+        <div class="error_message" v-if="errorMessage">{{ errorMessage }}</div>
 
-                  <div>
-                    <button type="submit" class="btn btn-light btn-lg btn-block mb-4">Submit</button>
-                  </div>
-                  
+        <div>
+          <button type="submit" class="btn btn-light btn-lg btn-block mb-4">Submit</button>
+        </div>
 
-                  <span>{{ text }}? <RouterLink class="link" :to="`/${link}`">{{ link }}</RouterLink></span>
-                </form>
-              </aside>
-              
-            </div>
+        <span
+          >{{ text }}? <RouterLink class="link" :to="`/${link}`">{{ link }}</RouterLink></span
+        >
+      </form>
+    </aside>
+  </div>
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 
 /* form component */
-  .form_modal{
-    display:flex;
-    border-radius:10px;
-    /* padding:50px; */
-    background-color:$primary-color;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-    @media (max-width: 998px) {
+.form {
+  display: flex;
+  background-color: $primary-color;
+  @media (max-width: 998px) {
     display: block;
-   }
-    /* figure */
-    figure{
-      margin:auto 10px;
-      background-color: $primary-color;
-      padding: 50px;
-      border-radius: 10px;
+  }
+  /* figure */
+  figure {
+    margin: auto 10px;
+    background-color: $primary-color;
+    padding: 50px;
+    border-radius: 10px;
+  }
+  .img_container {
+    height: fit-content;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
     }
-    .img_container{
-      height:fit-content;
-    img{
-        height:100%;
-        width:100%;
-        object-fit:cover;
-      }
   }
   /* aside form*/
-    aside{
-      width:400px;
-      background-color: #212529;
-      padding: 50px;
-      border-radius: 10px;
+  aside {
+    width: 400px;
+    background-color: #212529;
+    padding: 50px;
+    border-radius: 10px;
+    @media (max-width: 998px) {
+      width: 100%;
+    }
+    .title {
       @media (max-width: 998px) {
-      width:100%;
-    }
-    .title{
-      @media (max-width: 998px) {
-      justify-content:center;
-    }
-    }
-    
-      img.logo{
-      width:60px;
-      padding:10px;
-      border-radius:50%;
-      margin-right:20px;
-      background-color:white;
-    }
-    .form-control{
-      border:1px solid #cec8c8;
-      &:focus{
-        background-color:rgb(235, 230, 230);
+        justify-content: center;
       }
     }
-    .error_message{
-      color:red;
+
+    img.logo {
+      width: 60px;
+      padding: 10px;
+      border-radius: 50%;
+      margin-right: 20px;
+      background-color: white;
     }
-    .link{
-      color:$tertiary-color;
+    .form-control {
+      border: 1px solid #cec8c8;
+      &:focus {
+        background-color: rgb(235, 230, 230);
+      }
     }
+    .error_message {
+      color: red;
+    }
+    .link {
+      color: $tertiary-color;
     }
   }
-  
+}
 </style>
