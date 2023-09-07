@@ -47,7 +47,7 @@ const logoutRef = ref(logout)
   </nav>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 .navbar {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   position: sticky;

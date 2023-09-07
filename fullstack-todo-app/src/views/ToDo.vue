@@ -13,6 +13,7 @@ const tasks = ref([])
 const token = localStorage.getItem('token')
 const decodedToken = jwtDecode(token)
 const userId = decodedToken.user_id
+const errorMessage = ref('');
 
 //FUNCTIONS
 
@@ -39,10 +40,10 @@ async function addTask(task) {
       await axios.post('http://localhost/todo-backend/todo-app-backend/api.php', task)
       fetchTasks()
     } else {
-      console.error('User session data not found')
+      errorMessage.value = "user data not found"
     }
   } catch (error) {
-    console.error(error, 'Error with post request in adding tasks')
+    errorMessage.value = error.response.data.message
   }
 }
 
@@ -92,7 +93,7 @@ onMounted(() => {
         <!-- first column -->
         <div class="col-sm-12 col-md-6">
           <h2 class="bg_secondary text-white box_design">Tasks</h2>
-          <Submit @addTask="addTask" />
+          <Submit :errorMessage="errorMessage" @addTask="addTask" />
           <List :tasks="tasks" :deleteTask="deleteTask" :toggleTask="toggleTask" />
         </div>
 

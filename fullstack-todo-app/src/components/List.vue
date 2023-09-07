@@ -156,7 +156,7 @@ const otherTasks = computed(() => {
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import '@/assets/styles/variables.scss';
 .tasks_section {
   margin-top: 30px;
