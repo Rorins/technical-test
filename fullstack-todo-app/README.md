@@ -1,35 +1,15 @@
-# fullstack-todo-app
+# Todo App ReadMe
 
-This template should help get you started developing with Vue 3 in Vite.
+Welcome to the Todo app! This application allows you to manage your tasks.
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- **Task Management:** Create, edit, and delete tasks.
+- **User Authentication:** Register, log in, and log out securely.
 
-## Customize configuration
+## Usage
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- **Create a Task:** Click the plus button, enter your task and category and press Enter, you can add expiration as well.
+- **Update a Task:** Click the checkbox of the task you want to check the completed or not completed status.
+- **Delete a Task:** Click the task you want to delete, and then click the delete button.
+- **Authentication:** Sign up for an account or log in to access your tasks.
