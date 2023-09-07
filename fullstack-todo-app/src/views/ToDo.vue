@@ -13,7 +13,7 @@ const tasks = ref([])
 const token = localStorage.getItem('token')
 const decodedToken = jwtDecode(token)
 const userId = decodedToken.user_id
-const errorMessage = ref('');
+const errorMessage = ref('')
 
 //FUNCTIONS
 
@@ -40,7 +40,7 @@ async function addTask(task) {
       await axios.post('http://localhost/todo-backend/todo-app-backend/api.php', task)
       fetchTasks()
     } else {
-      errorMessage.value = "user data not found"
+      errorMessage.value = 'user data not found'
     }
   } catch (error) {
     errorMessage.value = error.response.data.message

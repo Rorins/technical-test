@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits, defineProps  } from 'vue'
+import { ref, defineEmits, defineProps } from 'vue'
 
 //Here we have the function we want to emit
 const emit = defineEmits(['addTask'])
@@ -8,9 +8,8 @@ const expirationDate = ref('')
 const selectedCategory = ref(null)
 
 const props = defineProps({
-  errorMessage: String,
+  errorMessage: String
 })
-
 
 //will send out all the data as an object to the parent component
 //I am using the ternary operator since the database is expecting a data type and I have string
@@ -20,7 +19,7 @@ function addTask() {
     emit('addTask', {
       title: newTask.value,
       expiryDate: expirationDate.value === '' ? null : expirationDate.value,
-      category_id: selectedCategory.value,
+      category_id: selectedCategory.value
     })
     newTask.value = ''
   }
@@ -73,8 +72,8 @@ function addTask() {
 @import '@/assets/styles/variables.scss';
 form {
   padding: 10px;
-  .error_message{
-    color:red;
+  .error_message {
+    color: red;
   }
   label {
     background-color: $secondary-color;

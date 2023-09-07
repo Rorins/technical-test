@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { isAuthenticated } from '@/auth.js'
-import NotFound from "@/views/NotFound.vue";
+import NotFound from '@/views/NotFound.vue'
 import SignUp from '../views/SignUp.vue'
 import Login from '../views/Login.vue'
 import ToDo from '../views/ToDo.vue'
@@ -21,9 +21,9 @@ const router = createRouter({
     },
     // for paths that are not setted
     {
-      path: "/:catchAll(.*)",
-      name: "NotFound",
-      component: NotFound,
+      path: '/:catchAll(.*)',
+      name: 'NotFound',
+      component: NotFound
     },
     {
       path: '/sign-up',
