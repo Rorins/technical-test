@@ -7,6 +7,11 @@ import { ref } from 'vue'
 //this will check the state of the navbar
 const isNavbarOpen = ref(false)
 const logoutRef = ref(logout)
+
+//navbar close
+const closeNavbar = () => {
+  isNavbarOpen.value = false;
+}
 </script>
 
 <template>
@@ -29,15 +34,15 @@ const logoutRef = ref(logout)
     </button>
     <div :class="{ show: isNavbarOpen }" class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav justify-content-center">
-        <i @click="isNavbarOpen = false" class="fa fa-times-circle"></i>
+        <i @click="closeNavbar" class="fa fa-times-circle"></i>
         <li class="nav-item">
-          <RouterLink class="nav-link" to="/todo"><span>Home</span></RouterLink>
+          <RouterLink class="nav-link" to="/todo" @click="closeNavbar"><span>Home</span></RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink class="nav-link" to="/login"><span>Login</span></RouterLink>
+          <RouterLink class="nav-link" to="/login" @click="closeNavbar"><span>Login</span></RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink class="nav-link" to="/sign-up"><span>Sign up</span></RouterLink>
+          <RouterLink class="nav-link" to="/sign-up" @click="closeNavbar"><span>Sign up</span></RouterLink>
         </li>
         <li v-if="isAuthenticated()" class="nav-item">
           <span @click="logoutRef" class="nav-link">Log out</span>

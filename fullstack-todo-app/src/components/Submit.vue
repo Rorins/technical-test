@@ -2,7 +2,7 @@
 import { ref, defineEmits, defineProps } from 'vue'
 
 //Here we have the function we want to emit
-const emit = defineEmits(['addTask'])
+const emit = defineEmits(['addTask', 'emptyField'])
 const newTask = ref('')
 const expirationDate = ref('')
 const selectedCategory = ref(null)
@@ -22,6 +22,8 @@ function addTask() {
       category_id: selectedCategory.value
     })
     newTask.value = ''
+    //will trasmit the empty field to parent
+    emit('emptyField')
   }
 }
 </script>
@@ -72,6 +74,10 @@ function addTask() {
 @import '@/assets/styles/variables.scss';
 form {
   padding: 10px;
+  @media (max-width: 430px) {
+     display:block !important;
+    }
+
   .error_message {
     color: red;
   }
@@ -93,6 +99,11 @@ form {
   }
   .add {
     margin: auto;
+    @media (max-width: 430px) {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+    }
     button {
       width: 60px;
       height: 60px;

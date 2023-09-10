@@ -74,6 +74,11 @@ const toggleTask = (taskId) => {
     .catch((error) => console.error(error))
 }
 
+//this function triggers with an emit just to empty the error
+function clearErrorMessage() {
+  errorMessage.value = ''
+}
+
 //Will show all the tasks when the component is mounted so they always get displayed
 onMounted(() => {
   fetchTasks()
@@ -93,7 +98,7 @@ onMounted(() => {
         <!-- first column -->
         <div class="col-sm-12 col-md-6">
           <h2 class="bg_secondary text-white box_design">Tasks</h2>
-          <Submit :errorMessage="errorMessage" @addTask="addTask" />
+          <Submit :errorMessage="errorMessage" @addTask="addTask" @emptyField="clearErrorMessage" />
           <List :tasks="tasks" :deleteTask="deleteTask" :toggleTask="toggleTask" />
         </div>
 
@@ -122,6 +127,7 @@ onMounted(() => {
     }
     .picture {
       margin: 10px;
+      max-width: 100%
     }
     @media (max-width: 1216px) {
       //adapted bootstrap column to my case

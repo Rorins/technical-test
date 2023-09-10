@@ -24,6 +24,7 @@ const errorMessage = ref('')
 const isLoginRoute = route.name === 'login'
 
 async function handleAuthentication() {
+  errorMessage.value = ''
   //Frontend validation
   if (!email.value || !password.value) {
     errorMessage.value = 'Email and password are required.'
