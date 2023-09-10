@@ -2,7 +2,7 @@
 
 Welcome to the Todo app! This application allows you to manage your tasks.
 
-![Todo App Screenshot](/path/to/screenshot.png)
+![Todo App log in]([/path/to/screenshot.png](https://github.com/Rorins/todo-app-frontend/blob/main/fullstack-todo-app/src/assets/screenshots/log-page.png))
 
 ## Features
 
